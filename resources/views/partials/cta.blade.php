@@ -12,10 +12,17 @@
             Join sekarang dan rasain gampangnya ngatur keuangan ala anak muda. 100% gratis buat mulai!
         </p>
 
+        @auth
+        <a href="{{ route('dashboard') }}" class="bg-primary text-on-primary hover:bg-primary-fixed-dim transition-all shadow-xl" style="position: relative; z-index: 10; padding: 1.25rem 2.5rem; border-radius: 9999px; font-size: 1.125rem; font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; gap: 0.75rem;">
+            Mulai Sekarang
+            <span class="material-symbols-outlined">rocket_launch</span>
+        </a>
+        @else
         <a href="{{ route('login') }}" class="bg-primary text-on-primary hover:bg-primary-fixed-dim transition-all shadow-xl" style="position: relative; z-index: 10; padding: 1.25rem 2.5rem; border-radius: 9999px; font-size: 1.125rem; font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; gap: 0.75rem;">
             Mulai Sekarang
             <span class="material-symbols-outlined">rocket_launch</span>
         </a>
+        @endauth
     </div>
 </section>
 
