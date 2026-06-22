@@ -1,0 +1,23 @@
+<svg width="320" height="640" viewBox="0 0 320 640" xmlns="http://www.w3.org/2000/svg">
+  <rect width="320" height="640" fill="#F8FAFC"/>
+  <rect x="20" y="40" width="280" height="100" rx="20" fill="#0891B2"/>
+  <text x="40" y="75" font-family="Inter, sans-serif" font-size="12" fill="#cffafe">Total Saldo</text>
+  <text x="40" y="105" font-family="Hanken Grotesk, sans-serif" font-size="24" font-weight="800" fill="#FFFFFF">Rp9.465.000,00</text>
+  <rect x="20" y="160" width="130" height="70" rx="16" fill="#f0fdf4"/>
+  <text x="35" y="185" font-family="Inter, sans-serif" font-size="10" fill="#15803D">Pemasukan</text>
+  <text x="35" y="210" font-family="Hanken Grotesk, sans-serif" font-size="16" font-weight="700" fill="#15803D">Rp15.000.000</text>
+  <rect x="170" y="160" width="130" height="70" rx="16" fill="#fef2f2"/>
+  <text x="185" y="185" font-family="Inter, sans-serif" font-size="10" fill="#EF4444">Pengeluaran</text>
+  <text x="185" y="210" font-family="Hanken Grotesk, sans-serif" font-size="16" font-weight="700" fill="#EF4444">Rp5.535.000</text>
+  <text x="20" y="260" font-family="Inter, sans-serif" font-size="12" font-weight="600" fill="#0F172A">Riwayat</text>
+  <rect x="20" y="280" width="280" height="60" rx="14" fill="#FFFFFF" stroke="#E2E8F0"/>
+  <text x="35" y="305" font-family="Inter, sans-serif" font-size="12" fill="#0F172A">makan malam</text>
+  <text x="35" y="322" font-family="Inter, sans-serif" font-size="10" fill="#94a3b8">16 Jun 2026</text>
+  <text x="220" y="313" font-family="Hanken Grotesk, sans-serif" font-size="13" font-weight="700" fill="#EF4444">-Rp45.000</text>
+  <rect x="20" y="350" width="280" height="60" rx="14" fill="#FFFFFF" stroke="#E2E8F0"/>
+  <text x="35" y="375" font-family="Inter, sans-serif" font-size="12" fill="#0F172A">top up e-wallet</text>
+  <text x="35" y="392" font-family="Inter, sans-serif" font-size="10" fill="#94a3b8">16 Jun 2026</text>
+  <text x="220" y="383" font-family="Hanken Grotesk, sans-serif" font-size="13" font-weight="700" fill="#EF4444">-Rp100.000</text>
+  <circle cx="280" cy="600" r="24" fill="#0891B2"/>
+  <text x="271" y="608" font-family="Inter, sans-serif" font-size="22" fill="#FFFFFF">+</text>
+</svg>
