@@ -21,10 +21,17 @@
 
         <!-- CTA Buttons -->
         <div style="display: flex; flex-direction: column; gap: 1rem; width: 100%; margin-top: 0.5rem;" class="hero-buttons">
+            @auth
+            <a href="{{ route('dashboard') }}" class="bg-on-surface text-surface hover:opacity-90 transition-all shadow-lg" style="padding: 1rem 2rem; border-radius: 9999px; font-weight: 600; font-size: 1.125rem; text-decoration: none; display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;">
+                Mulai Sekarang
+                <span class="material-symbols-outlined" style="font-size: 1.25rem;">arrow_forward</span>
+            </a>
+            @else
             <a href="{{ route('login') }}" class="bg-on-surface text-surface hover:opacity-90 transition-all shadow-lg" style="padding: 1rem 2rem; border-radius: 9999px; font-weight: 600; font-size: 1.125rem; text-decoration: none; display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;">
                 Mulai Sekarang
                 <span class="material-symbols-outlined" style="font-size: 1.25rem;">arrow_forward</span>
             </a>
+            @endauth
             <a href="https://youtube.com/shorts/Nwd1c7u_pr4?si=-kosVDeO3I8q7WCv" target="_blank" class="bg-surface-container-highest text-on-surface hover:opacity-80 transition-all shadow-sm" style="padding: 1rem 2rem; border-radius: 9999px; font-weight: 600; font-size: 1.125rem; text-decoration: none; display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; border: 1px solid rgba(203,213,225,0.2);">
                 <span class="material-symbols-outlined" style="font-size: 1.25rem;">play_circle</span>
                 Liat Demo

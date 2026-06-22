@@ -54,9 +54,15 @@
                 <p class="text-on-tertiary-container" style="font-size: 0.875rem; line-height: 1.25rem;">Input pengeluaran kilat, kurang dari 5 detik beres. Ga pake ribet.</p>
             </div>
 
+            @auth
+            <a href="{{ route('dashboard') }}" class="bg-surface-container-lowest text-on-surface hover:bg-surface transition-colors" style="position: relative; z-index: 10; margin-top: 2rem; width: 100%; padding: 0.75rem; border-radius: 0.75rem; font-weight: 600; font-size: 1.125rem; box-shadow: 0 1px 2px rgba(0,0,0,0.05); display: flex; align-items: center; justify-content: center; gap: 0.5rem; text-decoration: none;">
+                <span class="material-symbols-outlined">add</span> Tambah
+            </a>
+            @else
             <a href="{{ route('login') }}" class="bg-surface-container-lowest text-on-surface hover:bg-surface transition-colors" style="position: relative; z-index: 10; margin-top: 2rem; width: 100%; padding: 0.75rem; border-radius: 0.75rem; font-weight: 600; font-size: 1.125rem; box-shadow: 0 1px 2px rgba(0,0,0,0.05); display: flex; align-items: center; justify-content: center; gap: 0.5rem; text-decoration: none;">
                 <span class="material-symbols-outlined">add</span> Tambah
             </a>
+            @endauth
         </div>
 
         <!-- Feature 3: Laporan Detail (full width) -->
