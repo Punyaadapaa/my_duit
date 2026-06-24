@@ -1,5 +1,5 @@
 <!-- TopAppBar -->
-<header style="position: fixed; top: 0; width: 100%; z-index: 50; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-bottom: 1px solid rgba(203,213,225,0.3); transition: all 0.3s;" class="bg-surface/80 shadow-sm">
+<header style="position: absolute; top: 0; width: 100%; z-index: 50; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-bottom: 1px solid rgba(203,213,225,0.3); transition: all 0.3s;" class="bg-surface/80 shadow-sm">
     <div style="display: flex; justify-content: space-between; align-items: center; padding: 0.75rem 1rem; max-width: 80rem; margin: 0 auto;">
         <!-- Logo -->
         <div style="display: flex; align-items: center; gap: 0.5rem;">
@@ -33,7 +33,7 @@
                 </a>
             @else
                 <a href="{{ route('login') }}" class="bg-primary text-on-primary hover:bg-primary-fixed-dim transition-all shadow-md" style="padding: 0.5rem 1.5rem; border-radius: 9999px; font-size: 0.875rem; font-weight: 600; text-decoration: none; display: inline-flex; align-items: center;">
-                    Masuk
+                    Join
                 </a>
             @endauth
         </div>

@@ -16,12 +16,13 @@ class Transaction extends Model
         'type',
         'amount',
         'note',
+        'image_path',
         'transaction_date',
     ];
 
     protected $casts = [
         'amount' => 'decimal:2',
-        'transaction_date' => 'date',
+        'transaction_date' => 'datetime',
     ];
 
     public function user()

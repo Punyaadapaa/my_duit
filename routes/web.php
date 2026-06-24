@@ -30,5 +30,5 @@ Route::middleware('guest')->group(function () {
 Route::middleware('auth')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-    Route::resource('transactions', \App\Http\Controllers\TransactionController::class)->except(['create', 'edit', 'show']);
+    Route::resource('transactions', \App\Http\Controllers\TransactionController::class)->except(['create', 'edit']);
 });

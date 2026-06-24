@@ -8,7 +8,7 @@
             Udah Siap Pegang Kendali Duit Lo?
         </h2>
 
-        <p style="position: relative; z-index: 10; font-size: 1rem; line-height: 1.5rem; max-width: 28rem; color: rgba(var(--c-surface-variant), 0.8);">
+        <p class="text-surface opacity-80" style="position: relative; z-index: 10; font-size: 1.125rem; line-height: 1.75rem; max-width: 28rem;">
             Join sekarang dan rasain gampangnya ngatur keuangan ala anak muda. 100% gratis buat mulai!
         </p>
 
