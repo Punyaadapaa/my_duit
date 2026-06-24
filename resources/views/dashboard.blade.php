@@ -19,7 +19,7 @@
                 
                 <form method="POST" action="{{ route('logout') }}" class="m-0 p-0">
                     @csrf
-                    <button type="submit" class="flex items-center gap-2 bg-error hover:bg-error-container text-on-error hover:text-on-error-container px-4 py-2 rounded-xl transition-all font-semibold text-sm cursor-pointer shadow-sm">
+                    <button type="submit" class="flex items-center gap-2 bg-red-100 text-red-600 hover:bg-red-600 hover:text-white dark:bg-red-500/20 dark:text-red-400 dark:hover:bg-red-600 dark:hover:text-white px-4 py-2 rounded-xl transition-all font-semibold text-sm cursor-pointer shadow-sm border border-transparent">
                         <span class="material-symbols-outlined text-lg">logout</span>
                         Keluar
                     </button>
@@ -104,14 +104,14 @@
         <div class="bg-surface-container-low rounded-3xl border border-outline-variant/30 overflow-hidden shadow-sm">
             <div class="flex flex-col divide-y divide-outline-variant/30">
                 @foreach($recentTransactions as $tx)
-                <div class="flex items-center justify-between hover:bg-surface-container-high transition-colors" style="padding: 1rem 1.25rem;">
+                <a href="{{ route('transactions.show', $tx->id) }}" class="flex items-center justify-between hover:bg-surface-container-high transition-colors block text-inherit no-underline" style="padding: 1rem 1.25rem;">
                     <div class="flex items-center" style="gap: 1rem;">
                         <div class="rounded-full flex items-center justify-center" style="width: 3rem; height: 3rem; flex-shrink: 0; background-color: {{ $tx->category->color }}20; color: {{ $tx->category->color }};">
                             <span class="material-symbols-outlined">{{ $tx->category->icon }}</span>
                         </div>
                         <div>
                             <p class="font-bold text-on-surface text-lg" style="margin: 0;">{{ $tx->category->name }}</p>
-                            <p class="text-xs text-on-surface-variant" style="margin: 0.2rem 0 0;">{{ $tx->transaction_date->format('d M Y') }}</p>
+                            <p class="text-xs font-medium font-display-balance text-on-surface-variant" style="margin: 0.2rem 0 0;">{{ $tx->transaction_date->format('d M Y') }}</p>
                             @if($tx->note)
                                 <p class="text-xs text-on-surface-variant" style="margin: 0.1rem 0 0;">{{ $tx->note }}</p>
                             @endif
@@ -119,12 +119,12 @@
                     </div>
                     <div style="text-align: right;">
                         @if($tx->type === 'income')
-                            <p class="font-bold text-income-green font-display-balance">+ Rp {{ number_format($tx->amount, 0, ',', '.') }}</p>
+                            <p class="font-extrabold text-xl text-income-green font-display-balance">+ Rp {{ number_format($tx->amount, 0, ',', '.') }}</p>
                         @else
-                            <p class="font-bold text-on-surface font-display-balance">- Rp {{ number_format($tx->amount, 0, ',', '.') }}</p>
+                            <p class="font-extrabold text-xl text-on-surface font-display-balance">- Rp {{ number_format($tx->amount, 0, ',', '.') }}</p>
                         @endif
                     </div>
-                </div>
+                </a>
                 @endforeach
             </div>
         </div>

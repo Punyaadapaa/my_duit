@@ -8,7 +8,7 @@
     <header class="bg-surface-container-low border-b border-outline-variant/20 relative z-40 shadow-sm">
         <div class="max-w-5xl mx-auto px-4 md:px-8 py-4 flex items-center justify-between">
             <div class="flex items-center gap-4">
-                <a href="{{ route('dashboard') }}" class="w-10 h-10 flex items-center justify-center rounded-full bg-surface-container-high text-on-surface hover:bg-surface-container-highest transition-all hover:-translate-x-1">
+                <a href="{{ route('dashboard') }}" class="w-10 h-10 flex items-center justify-center rounded-full bg-surface-container-high text-on-surface hover:bg-surface-container-highest transition-all">
                     <span class="material-symbols-outlined">arrow_back</span>
                 </a>
                 <h1 class="text-xl font-bold font-display-balance text-on-surface tracking-tight">Riwayat Transaksi</h1>
@@ -31,15 +31,42 @@
         </div>
         @endif
 
-        <div class="flex flex-col md:flex-row md:justify-between md:items-end gap-4 mb-8">
+        <div class="flex flex-col md:flex-row md:justify-between md:items-center gap-4 mb-8">
             <div>
                 <h2 class="text-2xl font-bold text-on-surface mb-1 font-display-balance">Semua Catatan</h2>
                 <p class="text-on-surface-variant text-sm">Pantau arus kas lo secara detail di sini.</p>
             </div>
-            <button onclick="window.openTransactionModal('expense')" class="bg-primary text-on-primary font-bold rounded-2xl flex items-center justify-center gap-2 hover:bg-primary-fixed-dim transition-all shadow-md cursor-pointer" style="padding: 0.75rem 1.5rem;">
-                <span class="material-symbols-outlined text-xl">add</span>
-                Tambah Transaksi
-            </button>
+            
+            <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full md:w-auto">
+                <form action="{{ route('transactions.index') }}" method="GET" class="w-full sm:w-auto">
+                    <label for="transaction-search" class="sr-only">Cari kategori atau catatan</label>
+                    <div class="transaction-search relative flex h-14 w-full sm:w-80 md:w-96 items-center overflow-hidden rounded-2xl border border-outline-variant/40 bg-surface-container-low shadow-sm transition-all duration-200 focus-within:border-primary focus-within:ring-2 focus-within:ring-primary/20">
+                        <input
+                            id="transaction-search"
+                            type="search"
+                            name="search"
+                            class="h-full min-w-0 flex-1 appearance-none border-0 bg-transparent px-5 text-base font-medium text-on-surface outline-none transition-colors placeholder:text-on-surface-variant/70 focus:border-0 focus:outline-none focus:ring-0"
+                            placeholder="Cari kategori atau catatan..."
+                            value="{{ request('search') }}"
+                        >
+
+                        @if(request('search'))
+                            <a href="{{ route('transactions.index') }}" class="mr-1 flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-xl text-on-surface-variant transition-colors hover:bg-surface-container-high hover:text-on-surface focus:outline-none focus:ring-2 focus:ring-primary/20" title="Hapus pencarian" aria-label="Hapus pencarian">
+                                <span class="material-symbols-outlined" style="font-size: 18px;">close</span>
+                            </a>
+                        @endif
+
+                        <button type="submit" class="mr-1.5 flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-xl border border-outline-variant/30 bg-surface-container text-on-surface-variant transition-colors hover:bg-primary hover:text-on-primary focus:outline-none focus:ring-2 focus:ring-primary/20" aria-label="Cari">
+                            <span class="material-symbols-outlined" style="font-size: 22px;">search</span>
+                        </button>
+                    </div>
+                </form>
+                
+                <button onclick="window.openTransactionModal('expense')" class="bg-primary text-on-primary font-bold rounded-2xl flex items-center justify-center gap-2 hover:bg-primary-fixed-dim transition-all shadow-md cursor-pointer w-full sm:w-auto whitespace-nowrap" style="padding: 0.75rem 1.5rem;">
+                    <span class="material-symbols-outlined text-xl">add</span>
+                    Tambah Transaksi
+                </button>
+            </div>
         </div>
 
         @if($transactions->isEmpty())
@@ -54,43 +81,7 @@
         <div class="bg-surface-container-low rounded-3xl border border-outline-variant/20 overflow-hidden shadow-sm">
             <div class="flex flex-col divide-y divide-outline-variant/10">
                 @foreach($transactions as $tx)
-                <div class="flex flex-col sm:flex-row sm:items-center justify-between hover:bg-surface-container-high transition-colors group" style="padding: 1.25rem; gap: 1rem;">
-                    <div class="flex items-center" style="gap: 1rem;">
-                        <div class="rounded-full flex items-center justify-center" style="width: 3rem; height: 3rem; flex-shrink: 0; background-color: {{ $tx->category->color }}20; color: {{ $tx->category->color }};">
-                            <span class="material-symbols-outlined">{{ $tx->category->icon }}</span>
-                        </div>
-                        <div>
-                            <p class="font-bold text-on-surface text-lg" style="margin: 0;">{{ $tx->category->name }}</p>
-                            <p class="text-xs text-on-surface-variant" style="margin: 0.2rem 0 0;">{{ $tx->transaction_date->format('d M Y') }}</p>
-                            @if($tx->note)
-                                <p class="text-xs text-on-surface-variant" style="margin: 0.1rem 0 0;">{{ $tx->note }}</p>
-                            @endif
-                        </div>
-                    </div>
-                    
-                    <div class="flex items-center" style="justify-content: space-between; gap: 1rem;">
-                        <div style="text-align: right;">
-                            @if($tx->type === 'income')
-                                <p class="font-extrabold text-income-green font-display-balance text-lg">+ Rp {{ number_format($tx->amount, 0, ',', '.') }}</p>
-                            @else
-                                <p class="font-extrabold text-on-surface font-display-balance text-lg">- Rp {{ number_format($tx->amount, 0, ',', '.') }}</p>
-                            @endif
-                        </div>
-                        
-                        <div class="flex items-center" style="gap: 0.25rem; flex-shrink: 0;">
-                            <button onclick="window.openTransactionModal('{{ $tx->type }}', {{ $tx->toJson() }})" class="flex items-center justify-center rounded-xl bg-surface-container hover:bg-primary/10 text-on-surface-variant hover:text-primary transition-colors cursor-pointer" style="width: 2.5rem; height: 2.5rem;" title="Edit">
-                                <span class="material-symbols-outlined" style="font-size: 1.25rem;">edit</span>
-                            </button>
-                            <form action="{{ route('transactions.destroy', $tx->id) }}" method="POST" onsubmit="return confirm('Hapus transaksi ini? Saldo akan disesuaikan otomatis.');" style="margin: 0; padding: 0;">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="flex items-center justify-center rounded-xl bg-surface-container hover:bg-error-container text-on-surface-variant hover:text-error transition-colors cursor-pointer" style="width: 2.5rem; height: 2.5rem;" title="Hapus">
-                                    <span class="material-symbols-outlined" style="font-size: 1.25rem;">delete</span>
-                                </button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
+                    <x-transaction-card :tx="$tx" />
                 @endforeach
             </div>
         </div>

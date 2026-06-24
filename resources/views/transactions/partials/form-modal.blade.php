@@ -8,7 +8,7 @@
             </button>
         </div>
         
-        <form id="transactionForm" method="POST" action="{{ old('transaction_id') ? route('transactions.update', old('transaction_id')) : route('transactions.store') }}" class="p-8 flex flex-col gap-5">
+        <form id="transactionForm" method="POST" action="{{ old('transaction_id') ? route('transactions.update', old('transaction_id')) : route('transactions.store') }}" class="p-8 flex flex-col gap-5" enctype="multipart/form-data">
             @csrf
             <input type="hidden" name="_method" id="formMethod" value="{{ old('_method', 'POST') }}">
             <input type="hidden" name="transaction_id" id="transactionId" value="{{ old('transaction_id') }}">
@@ -78,9 +78,9 @@
 
                 <!-- Date Input -->
                 <div>
-                    <label for="transaction_date" class="text-xs uppercase tracking-wider font-bold text-on-surface-variant block mb-2">Tanggal</label>
-                    <input type="date" id="transaction_date" name="transaction_date" required value="{{ old('transaction_date', date('Y-m-d')) }}"
-                        class="w-full bg-surface-container-low text-on-surface font-medium border border-outline-variant/50 rounded-2xl px-4 py-3 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all cursor-pointer">
+                    <label for="transaction_date" class="text-xs uppercase tracking-wider font-bold text-on-surface-variant block mb-2">Tanggal & Waktu</label>
+                    <input type="datetime-local" id="transaction_date" name="transaction_date" required value="{{ old('transaction_date', date('Y-m-d\TH:i')) }}"
+                        class="w-full bg-surface-container-low text-on-surface font-medium font-display-balance border border-outline-variant/50 rounded-2xl px-4 py-3 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all cursor-pointer">
                 </div>
             </div>
 
@@ -90,6 +90,13 @@
                 <input type="text" id="note" name="note"
                     class="w-full bg-surface-container-low text-on-surface border border-outline-variant/50 rounded-2xl px-4 py-3 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all"
                     placeholder="Misal: Beli kopi susu" value="{{ old('note') }}">
+            </div>
+
+            <!-- Image Input -->
+            <div>
+                <label for="image" class="text-xs uppercase tracking-wider font-bold text-on-surface-variant block mb-2">Bukti Transaksi <span class="font-normal opacity-70">(Opsional, Max 5MB)</span></label>
+                <input type="file" id="image" name="image" accept="image/*"
+                    class="w-full bg-surface-container-low text-on-surface border border-outline-variant/50 rounded-2xl px-4 py-3 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-sm file:font-semibold file:bg-primary file:text-on-primary hover:file:bg-primary-fixed-dim cursor-pointer text-sm">
             </div>
 
             <button type="submit" id="submitBtn" class="w-full mt-2 bg-primary text-on-primary py-4 rounded-2xl font-bold text-lg hover:bg-primary-fixed-dim hover:-translate-y-0.5 active:translate-y-0 transition-all shadow-lg hover:shadow-primary/25">
@@ -163,7 +170,17 @@
             document.getElementById('transactionId').value = transactionData.id;
             
             document.getElementById('amount').value = Math.round(transactionData.amount);
-            document.getElementById('transaction_date').value = transactionData.transaction_date.split('T')[0];
+            
+            // Format datetime returned by eloquent (e.g. 2024-01-01T15:30:00.000000Z or 2024-01-01 15:30:00) 
+            // into datetime-local format YYYY-MM-DDTHH:MM
+            let formattedDate = transactionData.transaction_date;
+            if (formattedDate.includes('T')) {
+                formattedDate = formattedDate.substring(0, 16);
+            } else if (formattedDate.includes(' ')) {
+                formattedDate = formattedDate.replace(' ', 'T').substring(0, 16);
+            }
+            document.getElementById('transaction_date').value = formattedDate;
+            
             document.getElementById('note').value = transactionData.note || '';
             
             setTransactionType(transactionData.type);

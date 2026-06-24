@@ -31,12 +31,12 @@
                     <span class="material-symbols-outlined text-on-surface-variant" style="font-size: 1.875rem;">payments</span>
                     <div>
                         <p style="font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.05em;" class="text-on-surface-variant">1 USD =</p>
-                        <p class="text-on-surface" style="font-size: 1.125rem; font-weight: 600;">Rp 15.650</p>
+                        <p id="live-kurs-value" class="text-on-surface" style="font-size: 1.125rem; font-weight: 600;">Memuat...</p>
                     </div>
                 </div>
-                <div class="bg-income-bg text-income-green" style="padding: 0.25rem 0.75rem; border-radius: 9999px; display: flex; align-items: center; gap: 0.25rem;">
-                    <span class="material-symbols-outlined" style="font-size: 0.875rem;">arrow_upward</span>
-                    <span style="font-size: 0.75rem; font-weight: 500;">0.2%</span>
+                <div id="live-kurs-indicator" class="bg-surface-container-highest text-on-surface-variant" style="padding: 0.25rem 0.75rem; border-radius: 9999px; display: flex; align-items: center; gap: 0.25rem;">
+                    <span class="material-symbols-outlined" style="font-size: 0.875rem; animation: spin 2s linear infinite;">sync</span>
+                    <span style="font-size: 0.75rem; font-weight: 500;">Live</span>
                 </div>
             </div>
         </div>
@@ -134,4 +134,51 @@
             line-height: 2.5rem !important;
         }
     }
+    @keyframes spin {
+        from { transform: rotate(0deg); }
+        to { transform: rotate(360deg); }
+    }
 </style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const kursValue = document.getElementById('live-kurs-value');
+        const indicator = document.getElementById('live-kurs-indicator');
+
+        async function fetchKurs() {
+            try {
+                // Menggunakan API public dari exchangerate-api
+                const response = await fetch('https://api.exchangerate-api.com/v4/latest/USD');
+                if (!response.ok) throw new Error('Network response was not ok');
+                const data = await response.json();
+                const idrRate = data.rates.IDR;
+                
+                if (idrRate) {
+                    // Format angka ke format Rupiah
+                    kursValue.textContent = 'Rp ' + new Intl.NumberFormat('id-ID').format(idrRate);
+                    
+                    // Update indicator ke status berhasil
+                    indicator.className = 'bg-income-bg text-income-green';
+                    indicator.innerHTML = `
+                        <span class="material-symbols-outlined" style="font-size: 0.875rem;">check_circle</span>
+                        <span style="font-size: 0.75rem; font-weight: 500;">Updated</span>
+                    `;
+                }
+            } catch (error) {
+                console.error('Gagal mengambil data kurs:', error);
+                kursValue.textContent = 'Rp 15.000+'; // fallback jika gagal
+                indicator.className = 'bg-surface-container-highest text-on-surface-variant';
+                indicator.innerHTML = `
+                    <span class="material-symbols-outlined" style="font-size: 0.875rem;">error</span>
+                    <span style="font-size: 0.75rem; font-weight: 500;">Offline</span>
+                `;
+            }
+        }
+
+        // Fetch kurs langsung saat halaman diload
+        fetchKurs();
+        
+        // Update kurs setiap 5 menit
+        setInterval(fetchKurs, 5 * 60 * 1000);
+    });
+</script>
